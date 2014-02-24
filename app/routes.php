@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('layout');
-});
+Route::any('/', [
+	"as" => "user/login",
+	"uses" => "UserController@loginAction"
+	]);
