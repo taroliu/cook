@@ -14,4 +14,14 @@
 Route::any('/', [
 	"as" => "user/login",
 	"uses" => "UserController@loginAction"
-	]);
+]);
+
+Route::any('/request', [
+	"as" => "user/request",
+	"uses" => "UserController@requestAction"
+]);
+
+Route::any('/reset', [
+	"as" => "user/reset",
+	"uses" => "UserController@resetAction"
+]);

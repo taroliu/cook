@@ -44,4 +44,89 @@ class UserController extends Controller
 		
 		return View::make("user/login", $data);
 	}
+
+	public function requestAction()
+	{
+		$data = ["request" => Input::old("requested")];
+
+		if(Input::server("REQUEST_METHOD")=="POST")
+		{
+			$validator = Validator::make(Input::all(), [
+				"email" => "required"
+				]);
+
+			if($validator->passes())
+			{
+				$credentials = ["email"=>Input::get("email")];
+				Password::remind($credentials, function($message, $user)
+				{
+					//TODO
+					$message->from("taroliu0907@gmail.com");
+				});
+
+
+
+				$data["requested"] = true;
+
+				return Redirect::route("user/request")->withInput($data);
+			}
+			
+		}
+
+		return View::make("user/request", $data);
+	}
+
+	public function resetAction()
+	{
+		$token = "?token=".Input::get("token");
+
+		$errors = new MessageBag();
+
+		//TODO
+		if($old=Input::old("errors"))
+		{
+			$errors = $old;
+		}
+		$data = ["token" => $token, "errors" => $errors];
+
+		if(Input::server("REQUEST_METHOD") == "POST")
+		{
+			$validator = Validator::make(Input::all(),[
+				"email" => "required|email",
+				"password" => "required|min:6",
+				"password_confirmation" => "same:password",
+				"token" => "exists:token,token"
+				]);
+
+			if($validator->passes())
+			{	
+				//TODO
+				// $credentials = ["email" => Input::get("email")];
+				$credentials = [
+				"email" => Input::get("email"), 
+				"password" => Input::get("password"), 
+				"password_confirmation" => Input::get("password_confirmation"), 
+				"token" => Input::get("token")
+				];
+
+				Password::reset($credentials,
+					function($user, $passsword)
+					{
+						$user->password = Hash::make($passsword);
+						$user->save();
+
+						Auth::login($user);
+						//return Redirect::route("user/profile");
+						return "You are passed 2";
+					});
+			}
+
+			$data["email"]  = Input::get("email");
+			$data["errors"] = $validator->errors();
+
+			return Redirect::to(URL::route("user/reset").$token)->withInput($data);
+		}
+
+		return View::make("user/reset", $data);
+	}
 }
