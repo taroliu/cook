@@ -5,7 +5,7 @@
 		"autocomplete" => "off"
 	])}}
 	{{Form::label("email", "Email")}}
-	{{Form::text("email", Input::get("email"), ["placeholder" => "taroliu0907@gmail.com"
+	{{Form::text("email", Input::get("email"), ["placeholder" => ""
 	])}}
 	{{Form::submit("reset")}}
 	{{Form::close()}}

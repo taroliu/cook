@@ -9,7 +9,7 @@
 @endif
 
 {{Form::label("email", "Email")}}
-{{Form::text("email", Input::get("email"), ["placeholder" => "taroliu0907@gmail.com"])}}
+{{Form::text("email", Input::get("email"), ["placeholder" => ""])}}
 @if($error = $errors->first("email"))
 	<div class="error">
 		{{$error}}
@@ -17,7 +17,7 @@
 @endif
 
 {{Form::label("password", "Password")}}
-{{Form::password("password", ["placeholder" => "******"])}}
+{{Form::password("password", ["placeholder" => ""])}}
 @if($error = $errors->first("password"))
 	<div class="error">
 		{{$error}}
@@ -25,7 +25,7 @@
 @endif
 
 {{Form::label("password_confirmation", "Confirm")}}
-{{Form::password("password_confirmation", ["placeholder" => "******"])}}
+{{Form::password("password_confirmation", ["placeholder" => ""])}}
 @if($error = $errors->first("password_confirmation"))
 	<div class="error">
 		{{$error}}
