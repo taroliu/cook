@@ -41,5 +41,10 @@ Route::group(["before" => "auth"], function()
 		]);
 });
 
+Route::any("group/index",[
+		"as" => "group/index",
+		"uses" => "GroupController@indexAction"
+	]);
+
 
 
