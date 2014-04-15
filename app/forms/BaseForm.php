@@ -1,6 +1,14 @@
 <?php
 use Illuminate\Support\MessageBag;
 
+/**
+ * The BaseForm class checks for the error messages we would normally store to flash (session) storage.
+ * We would typically pull this data in each action, and now it will happen when each form class
+ * instance is created.
+ *
+ * @author Taro
+ *        
+ */
 class BaseForm {
 	protected $passes;
 	protected $errors;
@@ -15,6 +23,12 @@ class BaseForm {
 		$this->errors = $errors;
 	}
 
+	/**
+	 * Gets all the input data and compares it to
+	 * a set of provided validation rules.
+	 *
+	 * @param unknown $rules        	
+	 */
 	public function isValid($rules) {
 		$validator = Validator::make ( Input::all (), $rules );
 		$this->passes = $validator->passes ();
@@ -42,4 +56,5 @@ class BaseForm {
 	public function isPosted() {
 		return Input::server ( "REQUEST_METHOD" ) == "POST";
 	}
+
 }
